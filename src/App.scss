@@ -22,3 +22,26 @@
 .App-intro {
   font-size: large;
 }
+
+.react-bootstrap-table {
+  .table {
+    thead, td {
+      vertical-align: middle;
+      text-align: left;
+    }
+  }
+  .person {
+    img {
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+    text-align: left;
+    font-weight: 700; 
+    a {
+      color: #222;
+    }
+  }
+  .progress {
+    height: 2px;
+  }
+}
