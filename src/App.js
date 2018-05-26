@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import logo from './webtrekk-logo.svg';
-import Button from './components/Button'
-import './App.css';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Header from './components/Header';
+import CustomersList from './components/CustomersList';
+import Profile from './components/Profile';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Customers</h1>
-        </header>
-        <p className="App-intro">
-          <Button />
-        </p>
-      </div>
+      <Router>
+        <div>
+          <Header />
+          <Route exact path="/" component={CustomersList}/>
+          <Route path="/profile/:id" component={Profile}/>
+        </div>
+      </Router>
     );
   }
 }
