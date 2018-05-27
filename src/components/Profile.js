@@ -1,26 +1,115 @@
 import React, { Component } from 'react';
+import firebase from '.././firebase.js';
+import Loadable from 'react-loading-overlay'
 import { Link } from "react-router-dom";
 
 class Profile extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        id: props.match.params.id
+        customerID: props.match.params.id,
+        name: {
+            first: '',
+            last: ''
+        },
+        birthday: '',
+        gender: '',
+        lastContact: '',
+        customerLifetimeValue: '',
+        isActive: true
       };
+      this.handleChange = this.handleChange.bind(this);
+      this.handleNameChange = this.handleNameChange.bind(this);
+      this.handleLastChange = this.handleLastChange.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleNameChange(e) {
+      this.setState({
+        name: {
+          first: e.target.value,
+          last: e.target.form[1].defaultValue
+        }
+      });
+    }
+   
+    handleLastChange(e) {
+      this.setState({
+        name: {
+          first: e.target.form[0].defaultValue,
+          last: e.target.value
+        }
+      });
     }
     
-    render() {
-      const id = this.state.id;
+    handleChange(e) {
+      this.setState({
+        [e.target.name]: e.target.value
+      });
+    }
+    
+    handleSubmit(e) {
+      e.preventDefault();
+      const customersRef = firebase.database().ref('customers');
+      const customer = {
+        customerID: this.state.customerID,
+        name: {
+            first: this.state.name.first,
+            last: this.state.name.last,
+        },
+        birthday: this.state.birthday,
+        gender: this.state.gender,
+        lastContact: this.state.lastContact,
+        customerLifetimeValue: this.state.customerLifetimeValue
+      }
+      customersRef.push(customer);
+    }
 
+    componentDidMount() {
+      const customersRef = firebase.database().ref('customers');
+      customersRef.on('value', (snapshot) => {
+        const customers = snapshot.val();
+        let currentCustomerID = this.state.customerID;
+        let maxID = 0;
+        let currentCustomer = null;
+        customers.forEach(function (customer) {
+          if (customer.customerID == currentCustomerID) currentCustomer = customer;
+          maxID = customer.customerID > maxID ? customer.customerID : maxID;
+        });
+        currentCustomer.isActive = false;
+        currentCustomer.maxID = maxID;
+        this.setState(currentCustomer);
+      });
+    }
+
+    render() {
+      const fullName = this.state.name.first + ' ' + this.state.name.last;
+      const isActive = this.state.isActive;
       return (
         <div>
-          <p>
-            Profile of {id}
-          </p>
-          <Link to="/">Home</Link>
+          <Loadable
+            active={isActive}
+            spinner
+            background = 'none'
+            color = 'black'
+            >
+            <p>
+              Profile of {fullName}
+            </p>
+            <form onSubmit={this.handleSubmit}>
+              <input type="text" name="first" value={this.state.name.first} placeholder="" onChange={this.handleNameChange} />
+              <input type="text" name="last" value={this.state.name.last} placeholder="" onChange={this.handleLastChange} />
+              <input type="text" name="birthday" value={this.state.birthday} placeholder="" onChange={this.handleChange} />
+              <input type="text" name="gender" value={this.state.gender} placeholder="" onChange={this.handleChange} />
+              <input type="text" name="lastContact" value={this.state.lastContact} placeholder="" onChange={this.handleChange} />
+              <input type="text" name="customerLifetimeValue" value={this.state.customerLifetimeValue} placeholder="" onChange={this.handleChange} />
+              <button>Update</button>
+            </form>
+            <Link to="/">Home</Link>
+          </Loadable>
         </div>
     );
-}
+  }
 }
 
 export default Profile;

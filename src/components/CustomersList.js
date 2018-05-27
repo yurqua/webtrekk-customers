@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import BootstrapTable from 'react-bootstrap-table-next';
 import { Progress } from 'reactstrap';
-import customers from '../services/customers-sample'
+import firebase from '.././firebase.js';
+import Loadable from 'react-loading-overlay'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import '../App.css';
@@ -10,8 +11,6 @@ import '../App.css';
 class CustomersList extends Component {
     constructor (props) {
       super(props);
-      //this.linkFormatter=this.linkFormatter.bind(this);
-      //this.customerLifetimeValueFormatter=this.customerLifetimeValueFormatter.bind(this);
       this.state = {
         columns: [{
           dataField: 'name.full',
@@ -25,22 +24,24 @@ class CustomersList extends Component {
           formatter: this.customerLifetimeValueFormatter,
         }, {
           dataField: 'lastContact',
-          text: 'Last contact',
+          text: 'Last contact (Log contact now or earlier, otherwise validation)',
           sort: true
         }, {
           dataField: 'birthday',
           text: 'Birthday (>soon)',
           sort: true
-        }]
+        }],
+        isActive: true
       };
     }
     linkFormatter = (cell, row) => {
       const profileLink = "/profile/" + row.customerID;
       const gender = row.gender === "m" ? "men" : "women"
       const profileImageLink = "https://randomuser.me/api/portraits/med/" + gender + "/3" + row.customerID + ".jpg";
+      const fullName = row.name.full;
       return (
         <span className="person">
-          <img src={profileImageLink} />
+          <img src={profileImageLink} alt={fullName}/>
           <Link to={profileLink}>{row.name.full}</Link>
         </span>
       );
@@ -49,7 +50,6 @@ class CustomersList extends Component {
     customerLifetimeValueFormatter = (cell, row) => {
       if (!this.state.maxCustomerLifetimeValue) return;
       const percentage = row.customerLifetimeValue * 100 / this.state.maxCustomerLifetimeValue;
-      console.log(percentage);
       return (
         <span>
           <div className="text-center">{row.customerLifetimeValue}</div>
@@ -59,18 +59,30 @@ class CustomersList extends Component {
     }
       
     componentDidMount () {
-      let maxCustomerLifetimeValue = 0;
-      customers.forEach((customer) => {
-        maxCustomerLifetimeValue = maxCustomerLifetimeValue < customer.customerLifetimeValue ? customer.customerLifetimeValue : maxCustomerLifetimeValue;
+      const customersRef = firebase.database().ref('customers');
+      customersRef.on('value', (snapshot) => {
+        let customers = snapshot.val();
+        let maxCustomerLifetimeValue = 0;
+        customers.forEach((customer) => {
+          maxCustomerLifetimeValue = maxCustomerLifetimeValue < customer.customerLifetimeValue ? customer.customerLifetimeValue : maxCustomerLifetimeValue;
+          customer.name.full = customer.name.first + ' ' + customer.name.last;
+        });
+        this.setState({ customers, maxCustomerLifetimeValue, 'isActive': false });
       });
-      this.setState({ customers, maxCustomerLifetimeValue });
-        console.log(maxCustomerLifetimeValue);
+
     }
 
     render() {
       return (
         <div className="App">
-          <BootstrapTable keyField='customerID' data={ customers } columns={ this.state.columns } bordered={ false } />
+          <Loadable
+            active={this.state.isActive}
+            spinner
+            background = 'none'
+            color = 'black'
+            >
+            <BootstrapTable keyField='customerID' data={ this.state.customers } columns={ this.state.columns } bordered={ false } />
+          </Loadable>
         </div>
       );
     }

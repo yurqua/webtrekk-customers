@@ -33,3 +33,6 @@
 
 .react-bootstrap-table .progress {
   height: 2px; }
+
+._loading-overlay {
+  height: calc(100vh - 150px); }
