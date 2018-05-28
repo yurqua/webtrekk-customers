@@ -12,13 +12,21 @@
 
 .App-header {
   background-color:white;
-  height: 150px;
+  height: 120px;
   padding: 20px;
   color: white;
+  text-align: left;
+  img {
+    width: 170px;
+    height: 55px;
+  }
 }
 
 .App-title {
   font-size: 1.5em;
+  display: inline-block;
+  vertical-align: bottom;
+  margin: 0 0 -5px 10px;
 }
 
 .App-intro {
@@ -33,14 +41,18 @@
     }
   }
   .person {
+    text-align: left;
+    font-size: 1.3em;
     img {
       border-radius: 50%;
       margin-right: 20px;
     }
-    text-align: left;
-    font-weight: 700; 
     a {
       color: #222;
+      display: inline-block;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
   .progress {
@@ -48,11 +60,60 @@
   }
 }
 
-.avatar {
-  border-radius: 50%;
-  background-color: lightgrey;
-  margin: 10px;
-  animation: fadein 1s;
+.customer-profile {
+  text-align: center;
+  .invisible {
+    opacity: 0;
+    animation: fadeIn;
+  }
+  h2 {
+    font-size: 48px;
+    font-weight: 300;
+    display: inline;
+    &.editable-names:hover {
+      padding: 2px 5px;
+      margin: -2px -5px;
+      background: yellow;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    &.editable-names {
+      &.hidden {
+        opacity: 0;
+      }
+    }
+  }
+  .avatar {
+    border-radius: 50%;
+    background-color: lightgrey;
+    margin: 10px;
+    animation: fadein 1s;
+    margin: 0 auto;
+    display: block;
+  }
+  .ant-input{
+    width: 250px;
+  }
+  .ant-btn-lg {
+    height: 41px;
+  }
+  form span { 
+    display: inline-block;
+    &> * {
+      margin: 3px;
+    }
+  }
+  .names-form {
+    display: block;
+    margin: -49px 0 2px 0;
+    &.hidden {
+      display: none;
+    }
+  }
+  .buttons {
+    margin-left: 10px;
+  }
+
 }
 
 @keyframes fadein {
@@ -61,5 +122,24 @@
 }
 
 ._loading-overlay{
-  height: calc(100vh - 150px);
+  height: calc(100vh - 120px);
 }
+
+.ant-progress-status-success .ant-progress-bg {
+  background-color: #1890ff;
+}
+
+.ant-progress-small.ant-progress-line {
+  margin-top: -9px;
+  display: block;
+}
+
+.ant-progress-inner, .ant-progress-bg {
+  height: 5px !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: #f6f6f6;
+}
+
+
