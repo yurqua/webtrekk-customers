@@ -31,13 +31,14 @@ class CustomersList extends Component {
           text: 'Birthday (>soon)',
           sort: true
         }],
-        isActive: true
+        isLoading: true,
+        noDataLoaded: true
       };
     }
     linkFormatter = (cell, row) => {
       const profileLink = "/profile/" + row.customerID;
       const gender = row.gender === "m" ? "men" : "women"
-      const profileImageLink = "https://randomuser.me/api/portraits/med/" + gender + "/3" + row.customerID + ".jpg";
+      const profileImageLink = "https://randomuser.me/api/portraits/med/" + gender + "/" + row.customerID + ".jpg";
       const fullName = row.name.full;
       return (
         <span className="person">
@@ -60,16 +61,24 @@ class CustomersList extends Component {
       
     componentDidMount () {
       this.customersRef = firebase.database().ref('customers');
-      this.customersRef.on('value', (snapshot) => {
-        let customers = snapshot.val();
-        let maxCustomerLifetimeValue = 0;
-        customers = Object.values(customers); //fix Firebases array to object transform
-        customers.forEach((customer) => {
-          maxCustomerLifetimeValue = maxCustomerLifetimeValue < customer.customerLifetimeValue ? customer.customerLifetimeValue : maxCustomerLifetimeValue;
-          customer.name.full = customer.name.first + ' ' + customer.name.last;
+      try {
+        this.customersRef.on('value', (snapshot) => {
+          let customers = snapshot.val();
+          if (customers) {
+            let maxCustomerLifetimeValue = 0;
+            customers = Object.values(customers); //fix Firebases array to object transform
+            customers.forEach((customer) => {
+              maxCustomerLifetimeValue = maxCustomerLifetimeValue < customer.customerLifetimeValue ? customer.customerLifetimeValue : maxCustomerLifetimeValue;
+              customer.name.full = customer.name.first + ' ' + customer.name.last;
+            });
+            this.setState({ customers, maxCustomerLifetimeValue, 'isLoading': false,'noDataLoaded': false });
+          } else {
+            this.setState({ 'isLoading': false });
+          }
         });
-        this.setState({ customers, maxCustomerLifetimeValue, 'isActive': false });
-      });
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     componentWillUnmount() {
@@ -80,12 +89,19 @@ class CustomersList extends Component {
       return (
         <div className="App">
           <Loadable
-            active={this.state.isActive}
+            active={this.state.isLoading}
             spinner
             background = 'none'
             color = 'black'
             >
-            <BootstrapTable keyField='customerID' data={ this.state.customers } columns={ this.state.columns } bordered={ false } />
+            { this.state.isLoading ? '' 
+            : this.state.noDataLoaded ? <h2 className="mt-3">The database is empty</h2> 
+            : <BootstrapTable 
+                  keyField="customerID"
+                  data={ this.state.customers }
+                  columns={ this.state.columns }
+                  bordered={ false } 
+              />}
           </Loadable>
         </div>
       );

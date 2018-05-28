@@ -1,0 +1,70 @@
+{
+  "customers" : {
+    "0" : {
+      "birthday" : "1996-10-12",
+      "customerID" : 1,
+      "customerLifetimeValue" : 191.12,
+      "gender" : "m",
+      "lastContact" : "2017-06-01T23:28:56.782Z",
+      "name" : {
+        "first" : "Peter",
+        "last" : "Smith"
+      }
+    },
+    "1" : {
+      "birthday" : "1987-05-03",
+      "customerID" : 2,
+      "customerLifetimeValue" : 50.99,
+      "gender" : "w",
+      "lastContact" : "2017-07-08T13:18:56.888Z",
+      "name" : {
+        "first" : "Anna",
+        "last" : "Hopp"
+      }
+    },
+    "2" : {
+      "birthday" : "1991-02-21",
+      "customerID" : 3,
+      "customerLifetimeValue" : 0,
+      "gender" : "m",
+      "lastContact" : "2017-08-01T11:57:47.142Z",
+      "name" : {
+        "first" : "Christian",
+        "last" : "Cox"
+      }
+    },
+    "3" : {
+      "birthday" : "1979-06-30",
+      "customerID" : 4,
+      "customerLifetimeValue" : 213.12,
+      "gender" : "w",
+      "lastContact" : "2017-01-2-29T21:08:50.700Z",
+      "name" : {
+        "first" : "Roxy",
+        "last" : "Fox"
+      }
+    },
+    "4" : {
+      "birthday" : "1969-11-21",
+      "customerID" : 5,
+      "customerLifetimeValue" : 1019.91,
+      "gender" : "m",
+      "lastContact" : "2017-03-18T12:20:06.702Z",
+      "name" : {
+        "first" : "Eric",
+        "last" : "Adam"
+      }
+    },
+    "-LD_es39SlyDwVjOfzln" : {
+      "birthday" : "1982-03-05",
+      "customerID" : 7,
+      "customerLifetimeValue" : "588",
+      "gender" : "m",
+      "lastContact" : "2018-05-20T11:57:47.142Z",
+      "name" : {
+        "first" : "Albert",
+        "last" : "Rochester"
+      }
+    }
+  }
+}

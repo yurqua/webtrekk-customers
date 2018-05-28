@@ -16,7 +16,7 @@ class Profile extends Component {
         gender: '',
         lastContact: '',
         customerLifetimeValue: '',
-        isActive: true
+        isLoading: true
       };
       this.handleChange = this.handleChange.bind(this);
       this.handleNameChange = this.handleNameChange.bind(this);
@@ -65,22 +65,37 @@ class Profile extends Component {
       customersRef.push(customer);
     }
 
+    removeCustomer(firebaseID) {
+      this.setState({ 'isLoading': true });
+      const customerRef = firebase.database().ref(`/customers/${firebaseID}`);
+      customerRef.remove();
+      window.location = '/';
+    }
+
     componentDidMount() {
       this.customersRef = firebase.database().ref('customers');
-      this.customersRef.on('value', (snapshot) => {
-        let customers = snapshot.val();
-        let currentCustomerID = this.state.customerID;
-        let maxID = 0;
-        let currentCustomer = null;
-        customers = Object.values(customers); //fix Firebases array to object transform        
-        customers.forEach(function (customer) {
-          if (customer.customerID === +currentCustomerID) currentCustomer = customer;
-          maxID = customer.customerID > maxID ? customer.customerID : maxID;
+      try { 
+        this.customersRef.on('value', (snapshot) => {
+          let customers = snapshot.val();
+          let currentCustomerID = this.state.customerID;
+          let maxID = 0;
+          let currentCustomer = {};
+          for (let customer in customers) {
+            if (customers.hasOwnProperty(customer)) {
+                if (customers[customer].customerID === +currentCustomerID) {
+                  currentCustomer = customers[customer];
+                  currentCustomer.firebaseID = customer;
+                } 
+                maxID = customer.customerID > maxID ? customer.customerID : maxID;
+            }
+          }
+          currentCustomer.isLoading = false;
+          currentCustomer.maxID = maxID;
+          this.setState(currentCustomer);
         });
-        currentCustomer.isActive = false;
-        currentCustomer.maxID = maxID;
-        this.setState(currentCustomer);
-      });
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     componentWillUnmount() {
@@ -88,32 +103,33 @@ class Profile extends Component {
     } 
 
     render() {
+      const isLoading = this.state.isLoading;
       const fullName = this.state.name.first + ' ' + this.state.name.last;
       const customerID = this.state.customerID;
       const gender = this.state.gender === "m" ? "men" : "women"
-      const avatar = 'https://randomuser.me/api/portraits/' + gender + '/3' + customerID + '.jpg';
-      const isActive = this.state.isActive;
+      const avatar = 'https://randomuser.me/api/portraits/' + gender + '/' + customerID + '.jpg';
       return (
         <div>
           <Loadable
-            active={isActive}
+            active={isLoading}
             spinner
             background = 'none'
             color = 'black'
             >
-            <img src={avatar} alt={fullName} width='128' height='128' />
+            <img src={avatar} alt={fullName} className={'avatar ' + (isLoading ? 'invisible' : '')} width='128' height='128' />
             <p>
               Profile of {fullName}
             </p>
             <form onSubmit={this.handleSubmit}>
-              <input type="text" name="first" value={this.state.name.first} placeholder="" onChange={this.handleNameChange} />
-              <input type="text" name="last" value={this.state.name.last} placeholder="" onChange={this.handleLastChange} />
-              <input type="text" name="birthday" value={this.state.birthday} placeholder="" onChange={this.handleChange} />
-              <input type="text" name="gender" value={this.state.gender} placeholder="" onChange={this.handleChange} />
-              <input type="text" name="lastContact" value={this.state.lastContact} placeholder="" onChange={this.handleChange} />
-              <input type="text" name="customerLifetimeValue" value={this.state.customerLifetimeValue} placeholder="" onChange={this.handleChange} />
+              <input type="text" name="first" value={this.state.name.first} placeholder="Name" onChange={this.handleNameChange} />
+              <input type="text" name="last" value={this.state.name.last} placeholder="Last name" onChange={this.handleLastChange} />
+              <input type="text" name="birthday" value={this.state.birthday} placeholder="Birthday" onChange={this.handleChange} />
+              <input type="text" name="gender" value={this.state.gender} placeholder="Gender" onChange={this.handleChange} />
+              <input type="text" name="lastContact" value={this.state.lastContact} placeholder="Last contact" onChange={this.handleChange} />
+              <input type="text" name="customerLifetimeValue" value={this.state.customerLifetimeValue} placeholder="Lifetime value" onChange={this.handleChange} />
               <button>Update</button>
             </form>
+            <p><button onClick={() => this.removeCustomer(this.state.firebaseID)}>Remove this profile</button></p>
             <Link to="/">Home</Link>
           </Loadable>
         </div>
