@@ -55,7 +55,7 @@
     font-weight: 300;
     display: inline; }
     .customer-profile h2.editable-names:hover {
-      padding: 2px 5px;
+      padding: 0 12px 3px 12px;
       margin: -2px -5px;
       background: yellow;
       border-radius: 8px;
