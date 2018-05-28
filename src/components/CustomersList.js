@@ -41,7 +41,7 @@ class CustomersList extends Component {
       const fullName = row.name.full;
       return (
         <span className="person">
-          <img src={profileImageLink} alt={fullName}/>
+          <img src={profileImageLink} alt={fullName} width='72' height='72' />
           <Link to={profileLink}>{row.name.full}</Link>
         </span>
       );
@@ -59,18 +59,22 @@ class CustomersList extends Component {
     }
       
     componentDidMount () {
-      const customersRef = firebase.database().ref('customers');
-      customersRef.on('value', (snapshot) => {
+      this.customersRef = firebase.database().ref('customers');
+      this.customersRef.on('value', (snapshot) => {
         let customers = snapshot.val();
         let maxCustomerLifetimeValue = 0;
+        customers = Object.values(customers); //fix Firebases array to object transform
         customers.forEach((customer) => {
           maxCustomerLifetimeValue = maxCustomerLifetimeValue < customer.customerLifetimeValue ? customer.customerLifetimeValue : maxCustomerLifetimeValue;
           customer.name.full = customer.name.first + ' ' + customer.name.last;
         });
         this.setState({ customers, maxCustomerLifetimeValue, 'isActive': false });
       });
-
     }
+
+    componentWillUnmount() {
+      this.customersRef.off();
+    } 
 
     render() {
       return (

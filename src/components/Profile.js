@@ -52,7 +52,7 @@ class Profile extends Component {
       e.preventDefault();
       const customersRef = firebase.database().ref('customers');
       const customer = {
-        customerID: this.state.customerID,
+        customerID: +this.state.maxID +1,
         name: {
             first: this.state.name.first,
             last: this.state.name.last,
@@ -66,14 +66,15 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-      const customersRef = firebase.database().ref('customers');
-      customersRef.on('value', (snapshot) => {
-        const customers = snapshot.val();
+      this.customersRef = firebase.database().ref('customers');
+      this.customersRef.on('value', (snapshot) => {
+        let customers = snapshot.val();
         let currentCustomerID = this.state.customerID;
         let maxID = 0;
         let currentCustomer = null;
+        customers = Object.values(customers); //fix Firebases array to object transform        
         customers.forEach(function (customer) {
-          if (customer.customerID == currentCustomerID) currentCustomer = customer;
+          if (customer.customerID === +currentCustomerID) currentCustomer = customer;
           maxID = customer.customerID > maxID ? customer.customerID : maxID;
         });
         currentCustomer.isActive = false;
@@ -82,8 +83,15 @@ class Profile extends Component {
       });
     }
 
+    componentWillUnmount() {
+      this.customersRef.off();
+    } 
+
     render() {
       const fullName = this.state.name.first + ' ' + this.state.name.last;
+      const customerID = this.state.customerID;
+      const gender = this.state.gender === "m" ? "men" : "women"
+      const avatar = 'https://randomuser.me/api/portraits/' + gender + '/3' + customerID + '.jpg';
       const isActive = this.state.isActive;
       return (
         <div>
@@ -93,6 +101,7 @@ class Profile extends Component {
             background = 'none'
             color = 'black'
             >
+            <img src={avatar} alt={fullName} width='128' height='128' />
             <p>
               Profile of {fullName}
             </p>
