@@ -1,3 +1,4 @@
+@import url(~antd/dist/antd.css);
 .App {
   text-align: center;
   font-family: 'Source Sans Pro', sans-serif;
@@ -7,7 +8,7 @@
   height: 80px; }
 
 .App-header {
-  background-color: #222;
+  background-color: white;
   height: 150px;
   padding: 20px;
   color: white; }
@@ -18,20 +19,20 @@
 .App-intro {
   font-size: large; }
 
-.react-bootstrap-table .table thead, .react-bootstrap-table .table td {
+.ant-table-wrapper .table thead, .ant-table-wrapper .table td {
   vertical-align: middle;
   text-align: left; }
 
-.react-bootstrap-table .person {
+.ant-table-wrapper .person {
   text-align: left;
   font-weight: 700; }
-  .react-bootstrap-table .person img {
+  .ant-table-wrapper .person img {
     border-radius: 50%;
     margin-right: 20px; }
-  .react-bootstrap-table .person a {
+  .ant-table-wrapper .person a {
     color: #222; }
 
-.react-bootstrap-table .progress {
+.ant-table-wrapper .progress {
   height: 2px; }
 
 .avatar {

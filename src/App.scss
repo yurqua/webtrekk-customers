@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 .App {
   text-align: center;
   font-family: 'Source Sans Pro', sans-serif;
@@ -9,7 +11,7 @@
 }
 
 .App-header {
-  background-color: #222;
+  background-color:white;
   height: 150px;
   padding: 20px;
   color: white;
@@ -23,7 +25,7 @@
   font-size: large;
 }
 
-.react-bootstrap-table {
+.ant-table-wrapper {
   .table {
     thead, td {
       vertical-align: middle;
