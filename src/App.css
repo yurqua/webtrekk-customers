@@ -1,3 +1,4 @@
+@import url(~antd/dist/antd.css);
 .App {
   text-align: center;
   font-family: 'Source Sans Pro', sans-serif;
@@ -7,32 +8,101 @@
   height: 80px; }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: white;
+  height: 120px;
   padding: 20px;
-  color: white; }
+  color: white;
+  text-align: left; }
+  .App-header img {
+    width: 170px;
+    height: 55px; }
 
 .App-title {
-  font-size: 1.5em; }
+  font-size: 1.5em;
+  display: inline-block;
+  vertical-align: bottom;
+  margin: 0 0 -5px 10px; }
 
 .App-intro {
   font-size: large; }
 
-.react-bootstrap-table .table thead, .react-bootstrap-table .table td {
+.ant-table-wrapper .table thead, .ant-table-wrapper .table td {
   vertical-align: middle;
   text-align: left; }
 
-.react-bootstrap-table .person {
+.ant-table-wrapper .person {
   text-align: left;
-  font-weight: 700; }
-  .react-bootstrap-table .person img {
+  font-size: 1.3em; }
+  .ant-table-wrapper .person img {
     border-radius: 50%;
     margin-right: 20px; }
-  .react-bootstrap-table .person a {
-    color: #222; }
+  .ant-table-wrapper .person a {
+    color: #222;
+    display: inline-block; }
+    .ant-table-wrapper .person a:hover {
+      text-decoration: underline; }
 
-.react-bootstrap-table .progress {
+.ant-table-wrapper .progress {
   height: 2px; }
 
+.customer-profile {
+  text-align: center; }
+  .customer-profile .invisible {
+    opacity: 0;
+    animation: fadeIn; }
+  .customer-profile h2 {
+    font-size: 48px;
+    font-weight: 300;
+    display: inline; }
+    .customer-profile h2.editable-names:hover {
+      padding: 0 12px 3px 12px;
+      margin: -2px -5px;
+      background: yellow;
+      border-radius: 8px;
+      cursor: pointer; }
+    .customer-profile h2.editable-names.hidden {
+      opacity: 0; }
+  .customer-profile .avatar {
+    border-radius: 50%;
+    background-color: lightgrey;
+    margin: 10px;
+    animation: fadein 1s;
+    margin: 0 auto;
+    display: block; }
+  .customer-profile .ant-input {
+    width: 250px; }
+  .customer-profile .ant-btn-lg {
+    height: 41px; }
+  .customer-profile form span {
+    display: inline-block; }
+    .customer-profile form span > * {
+      margin: 3px; }
+  .customer-profile .names-form {
+    display: block;
+    margin: -49px 0 2px 0; }
+    .customer-profile .names-form.hidden {
+      display: none; }
+  .customer-profile .buttons {
+    margin-left: 10px; }
+
+@keyframes fadein {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
 ._loading-overlay {
-  height: calc(100vh - 150px); }
+  height: calc(100vh - 120px); }
+
+.ant-progress-status-success .ant-progress-bg {
+  background-color: #1890ff; }
+
+.ant-progress-small.ant-progress-line {
+  margin-top: -9px;
+  display: block; }
+
+.ant-progress-inner, .ant-progress-bg {
+  height: 5px !important; }
+
+.ant-table-tbody > tr:hover > td {
+  background: #f6f6f6; }
