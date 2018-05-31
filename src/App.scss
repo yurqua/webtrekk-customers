@@ -1,9 +1,12 @@
 @import '~antd/dist/antd.css';
 
-.App {
-  text-align: center;
+body {
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 300;
+}
+
+.App {
+  text-align: center;
 }
 
 .App-logo {
@@ -12,8 +15,8 @@
 
 .App-header {
   background-color:white;
-  height: 120px;
-  padding: 20px;
+  height: 110px;
+  padding: 20px 20px 0px;
   color: white;
   text-align: left;
   img {
@@ -66,21 +69,26 @@
     opacity: 0;
     animation: fadeIn;
   }
+  .editable {
+    display: inline;
+    &.hidden {
+      opacity: 0;
+    }
+  }
+  .editable:hover {
+    padding: 2px 5px 3px 5px;
+    margin: -2px -5px;
+    background: yellow;
+    border-radius: 4px;
+    cursor: pointer;
+  }
   h2 {
     font-size: 48px;
     font-weight: 300;
-    display: inline;
-    &.editable-names:hover {
+    &.editable:hover {
       padding: 0 12px 3px 12px;
       margin: -2px -5px;
-      background: yellow;
       border-radius: 8px;
-      cursor: pointer;
-    }
-    &.editable-names {
-      &.hidden {
-        opacity: 0;
-      }
     }
   }
   .avatar {
@@ -90,6 +98,32 @@
     animation: fadein 1s;
     margin: 0 auto;
     display: block;
+  }
+  .customer-lifetime-value {
+    > div {
+      margin-top: -25px;
+    }
+    .label{
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+    .value{
+      font-size: 30px;
+      background-color: #8cb911;
+      color: white;
+      border-radius: 13px;
+      padding: 0px 15px;
+      font-weight: 700;
+      text-align: center;
+    }
+  }
+  hr {
+    width: 150px;
+    margin: 20px auto;
+  }
+  .date-picker-component {
+    font-size: 20px;
+    margin-bottom: 13px;
   }
   .ant-input{
     width: 250px;
@@ -105,7 +139,13 @@
   }
   .names-form {
     display: block;
-    margin: -49px 0 2px 0;
+    margin: -50px 0 2px 0;
+    &.hidden {
+      display: none;
+    }
+  }
+  .date-form {
+    margin: -38px 0 -15px 0;
     &.hidden {
       display: none;
     }

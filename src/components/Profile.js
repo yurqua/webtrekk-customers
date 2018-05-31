@@ -1,8 +1,21 @@
-import React, { Component } from 'react';
-import { Row, Col, Input, Button, Radio, Icon, notification } from 'antd';
-import firebase from '.././firebase.js';
 import Loadable from 'react-loading-overlay'
+import React, { Component } from 'react';
+import { Row, Col, Form, DatePicker, Input, Button, Radio, Icon, notification } from 'antd';
+import ValidatedDatePicker from './DatePicker'
+import firebase from '.././firebase.js';
 import { Link } from "react-router-dom";
+
+function renderDatePicker() {
+  if (this.state.birthday) {
+      return (
+        <div>
+          <ValidatedDatePicker date={this.state.birthday} fieldType="birthday" firebaseID={this.state.firebaseID} name={this.state.name} />
+          <ValidatedDatePicker date={this.state.lastContact} fieldType="lastContact" firebaseID={this.state.firebaseID} name={this.state.name} />
+        </div>
+      )
+  }
+  return;
+}
 
 class Profile extends Component {
     constructor(props) {
@@ -27,6 +40,7 @@ class Profile extends Component {
       this.handleCancelSaveNames = this.handleCancelSaveNames.bind(this);
       this.handleSaveNames = this.handleSaveNames.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleGenderChange = this.handleGenderChange.bind(this);
     }
 
     handleNameChange(e) {
@@ -118,6 +132,15 @@ class Profile extends Component {
       });
     }
 
+    handleGenderChange(e) {
+      const sexDictionary = [
+        {'Woman': 'w'},
+        {'Man': 'm'},
+        {'Other': 'o'}
+      ];
+      console.log(`radio checked:${e.target.value}`);
+    }   
+
     removeCustomer(firebaseID) {
       this.setState({ 'isLoading': true });
       const customerRef = firebase.database().ref(`/customers/${firebaseID}`);
@@ -159,11 +182,16 @@ class Profile extends Component {
       const isLoading = this.state.isLoading;
       const fullName = this.state.name.first + ' ' + this.state.name.last;
       const customerID = this.state.customerID;
-      const gender = this.state.gender === "m" ? "men" : "women"
-      const avatar = 'https://randomuser.me/api/portraits/' + gender + '/' + customerID + '.jpg';
+      const gender = this.state.gender;
+      //use dictionary instead:
+      const genderURL = this.state.gender === "m" ? "men" : "women"
+      const avatar = 'https://randomuser.me/api/portraits/' + genderURL + '/' + customerID + '.jpg';
       const hiddenCustomerDetails = isLoading ? 'invisible' : '';
       const hiddenNamesForm = this.state.isEditingNames ? '' : 'hidden';
       const hiddenNamesLabel = this.state.isEditingNames ? 'hidden' : '';
+      const RadioButton = Radio.Button;
+      const RadioGroup = Radio.Group;
+
       return (
         <div>
           <Loadable
@@ -176,7 +204,13 @@ class Profile extends Component {
               <Col xs={24} md={20} xl={18}>
                 <img src={avatar} alt={fullName} className={'avatar ' + (isLoading ? 'invisible' : '')} width='172' height='172' />
                 <span className={hiddenCustomerDetails}>
-                  <h2 className={"editable-names " + hiddenNamesLabel} onClick={this.handleEditNames}>
+                  <div className="customer-lifetime-value">
+                    <div>
+                      <span className="value">{this.state.customerLifetimeValue}</span>
+                    </div>
+                    <span class="label">Customer lifetime value</span>
+                  </div>
+                  <h2 className={"editable " + hiddenNamesLabel} onClick={this.handleEditNames}>
                     {fullName}
                   </h2>
                   <form className={"names-form " + hiddenNamesForm}>
@@ -189,10 +223,15 @@ class Profile extends Component {
                       <Button onClick={this.handleCancelSaveNames} icon="close-circle-o" size="large">Cancel</Button>
                     </span>
                   </form>
+                  <hr />
 
+                  {renderDatePicker.call(this)}
 
-
-
+                  <RadioGroup onChange={this.handleGenderChange} defaultValue={gender}>
+                    <RadioButton value="w">Woman</RadioButton>
+                    <RadioButton value="m">Man</RadioButton>
+                    <RadioButton value="o">Other</RadioButton>
+                  </RadioGroup>
 
 
 
@@ -200,13 +239,16 @@ class Profile extends Component {
 
 
                   <form onSubmit={this.handleSubmit} className={hiddenCustomerDetails}>
+
                     <input type="text" name="birthday" value={this.state.birthday} placeholder="Birthday" onChange={this.handleChange} />
                     <input type="text" name="gender" value={this.state.gender} placeholder="Gender" onChange={this.handleChange} />
                     <input type="text" name="lastContact" value={this.state.lastContact} placeholder="Last contact" onChange={this.handleChange} />
                     <input type="text" name="customerLifetimeValue" value={this.state.customerLifetimeValue} placeholder="Lifetime value" onChange={this.handleChange} />
-                    <button>Update</button>
+                    <Button icon="check-circle" type="primary" size="large">Add profile</Button>
                   </form>
-                  <p className={hiddenCustomerDetails}><button onClick={() => this.removeCustomer(this.state.firebaseID)}>Remove this profile</button></p>
+                  <p className={hiddenCustomerDetails}>
+                    <Button onClick={() => this.removeCustomer(this.state.firebaseID)} type="danger" size="large">Remove this profile</Button>
+                  </p>
                   <Link to="/">Home</Link>
                 </span>
               </Col>
