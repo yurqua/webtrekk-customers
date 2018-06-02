@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import firebase from '.././firebase.js';
 import Loadable from 'react-loading-overlay'
+import TimeAgo from 'react-timeago'
+import Avatar from './Avatar';
 import { Table, Progress, Row, Col } from 'antd';
 import { Link } from "react-router-dom";
 import '../App.css';
@@ -11,11 +13,14 @@ const customersColumns = [{
   key: 'name.full',
   render: (text, record) => 
     <span className="person">
-      <img src={"https://randomuser.me/api/portraits/med/" + record.fullGender + "/" + record.customerID + ".jpg"} 
-        width='72' 
-        height='72'
-        alt={record.name.full} 
-      />
+      <div className="avatar">
+        <Avatar 
+          customerID={+record.customerID} 
+          gender={record.gender}
+          size="small"
+          isLoading={false}
+        />
+      </div>
       <Link to={"/profile/" + record.customerID}>{text}</Link>
     </span>,
   sorter: (a, b) => a.name.full.toLowerCase() > b.name.full.toLowerCase(),
@@ -34,12 +39,14 @@ const customersColumns = [{
   title: 'Last contact',
   dataIndex: 'lastContact',
   key: 'lastContact',
-  sorter: (a, b) => a.lastContact < b.lastContact,
+  render: (text, record) => 
+      <span>
+        <TimeAgo date={record.lastContact} />
+      </span>
 }, {
-  title: '	Birthday (>soon)',
+  title: 'Birthday',
   dataIndex: 'birthday',
-  key: 'birthday',
-  sorter: (a, b) => a.birthday < b.birthday,
+  key: 'birthday'
 }];
 
 class CustomersList extends Component {

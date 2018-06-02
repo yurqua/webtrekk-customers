@@ -4,8 +4,6 @@ import { Form, DatePicker, Button } from 'antd';
 import moment from 'moment';
 import writeUserData from './helpers'
 
-const FormItem = Form.Item;
-
 class UIDatePicker extends React.Component {
   constructor (props) {
     super (props);
@@ -88,7 +86,10 @@ class UIDatePicker extends React.Component {
 }
 
 UIDatePicker.propTypes = {
-  date: PropTypes.string.isRequired
+  date: PropTypes.string.isRequired,
+  fieldType: PropTypes.string.isRequired,
+  firebaseID: PropTypes.string.isRequired,
+  name: PropTypes.object.isRequired
 };
 
 const ValidatedDatePicker = Form.create()(UIDatePicker);

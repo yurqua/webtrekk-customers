@@ -7,6 +7,7 @@ body {
 
 .App {
   text-align: center;
+  animation: fadein 1s;
 }
 
 .App-logo {
@@ -46,9 +47,15 @@ body {
   .person {
     text-align: left;
     font-size: 1.3em;
-    img {
+    .avatar {
       border-radius: 50%;
-      margin-right: 20px;
+      background-color: lightgrey;
+      width: 72px;
+      height: 72px;
+      img {
+        border-radius: 50%;
+        margin-right: 20px;
+      }
     }
     a {
       color: #222;
@@ -61,13 +68,29 @@ body {
   .progress {
     height: 2px;
   }
+  .ant-progress-status-success .ant-progress-bg, .ant-progress-status-normal .ant-progress-bg {
+    background-color: #1890ff !important;
+  }
+  
+  .ant-progress-small.ant-progress-line {
+    margin-top: -9px;
+    display: block;
+  }
+  
+  .ant-progress-inner, .ant-progress-bg {
+    height: 5px !important;
+  }
+  
+  .ant-table-tbody > tr:hover > td {
+    background: #f6f6f6;
+  }  
 }
 
 .customer-profile {
   text-align: center;
+  animation: fadein 1s;
   .invisible {
     opacity: 0;
-    animation: fadeIn;
   }
   .editable {
     display: inline;
@@ -95,9 +118,13 @@ body {
     border-radius: 50%;
     background-color: lightgrey;
     margin: 10px;
-    animation: fadein 1s;
     margin: 0 auto;
     display: block;
+    width: 172px;
+    height: 172px;
+    img {
+      border-radius: 50%;
+    }
   }
   .customer-lifetime-value {
     > div {
@@ -163,23 +190,6 @@ body {
 
 ._loading-overlay{
   height: calc(100vh - 120px);
-}
-
-.ant-progress-status-success .ant-progress-bg {
-  background-color: #1890ff;
-}
-
-.ant-progress-small.ant-progress-line {
-  margin-top: -9px;
-  display: block;
-}
-
-.ant-progress-inner, .ant-progress-bg {
-  height: 5px !important;
-}
-
-.ant-table-tbody > tr:hover > td {
-  background: #f6f6f6;
 }
 
 

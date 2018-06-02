@@ -4,7 +4,8 @@ body {
   font-weight: 300; }
 
 .App {
-  text-align: center; }
+  text-align: center;
+  animation: fadein 1s; }
 
 .App-logo {
   height: 80px; }
@@ -35,9 +36,14 @@ body {
 .ant-table-wrapper .person {
   text-align: left;
   font-size: 1.3em; }
-  .ant-table-wrapper .person img {
+  .ant-table-wrapper .person .avatar {
     border-radius: 50%;
-    margin-right: 20px; }
+    background-color: lightgrey;
+    width: 72px;
+    height: 72px; }
+    .ant-table-wrapper .person .avatar img {
+      border-radius: 50%;
+      margin-right: 20px; }
   .ant-table-wrapper .person a {
     color: #222;
     display: inline-block; }
@@ -47,11 +53,24 @@ body {
 .ant-table-wrapper .progress {
   height: 2px; }
 
+.ant-table-wrapper .ant-progress-status-success .ant-progress-bg, .ant-table-wrapper .ant-progress-status-normal .ant-progress-bg {
+  background-color: #1890ff !important; }
+
+.ant-table-wrapper .ant-progress-small.ant-progress-line {
+  margin-top: -9px;
+  display: block; }
+
+.ant-table-wrapper .ant-progress-inner, .ant-table-wrapper .ant-progress-bg {
+  height: 5px !important; }
+
+.ant-table-wrapper .ant-table-tbody > tr:hover > td {
+  background: #f6f6f6; }
+
 .customer-profile {
-  text-align: center; }
+  text-align: center;
+  animation: fadein 1s; }
   .customer-profile .invisible {
-    opacity: 0;
-    animation: fadeIn; }
+    opacity: 0; }
   .customer-profile .editable {
     display: inline; }
     .customer-profile .editable.hidden {
@@ -73,9 +92,12 @@ body {
     border-radius: 50%;
     background-color: lightgrey;
     margin: 10px;
-    animation: fadein 1s;
     margin: 0 auto;
-    display: block; }
+    display: block;
+    width: 172px;
+    height: 172px; }
+    .customer-profile .avatar img {
+      border-radius: 50%; }
   .customer-profile .customer-lifetime-value > div {
     margin-top: -25px; }
   .customer-profile .customer-lifetime-value .label {
@@ -123,16 +145,3 @@ body {
 
 ._loading-overlay {
   height: calc(100vh - 120px); }
-
-.ant-progress-status-success .ant-progress-bg {
-  background-color: #1890ff; }
-
-.ant-progress-small.ant-progress-line {
-  margin-top: -9px;
-  display: block; }
-
-.ant-progress-inner, .ant-progress-bg {
-  height: 5px !important; }
-
-.ant-table-tbody > tr:hover > td {
-  background: #f6f6f6; }
