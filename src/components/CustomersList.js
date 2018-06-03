@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import firebase from '.././firebase.js';
 import Loadable from 'react-loading-overlay'
+import TimeAgo from 'react-timeago'
+import Avatar from './Avatar';
 import { Table, Progress, Row, Col } from 'antd';
 import { Link } from "react-router-dom";
 import '../App.css';
@@ -11,11 +13,15 @@ const customersColumns = [{
   key: 'name.full',
   render: (text, record) => 
     <span className="person">
-      <img src={"https://randomuser.me/api/portraits/med/" + record.fullGender + "/" + record.customerID + ".jpg"} 
-        width='72' 
-        height='72'
-        alt={record.name.full} 
-      />
+      <div className="avatar">
+        <Avatar 
+          customerID={+record.customerID} 
+          gender={record.gender}
+          size="small"
+          isLoading={false}
+        />
+      </div>
+      {/*switching to native Firebase IDs instead would simplify the app*/} 
       <Link to={"/profile/" + record.customerID}>{text}</Link>
     </span>,
   sorter: (a, b) => a.name.full.toLowerCase() > b.name.full.toLowerCase(),
@@ -34,12 +40,16 @@ const customersColumns = [{
   title: 'Last contact',
   dataIndex: 'lastContact',
   key: 'lastContact',
-  sorter: (a, b) => a.lastContact < b.lastContact,
+  //Unlike birthday date, the 'Last contact date' is easier to read when it's provided in the '...time ago' format
+  render: (text, record) => 
+      <span>
+        <TimeAgo date={record.lastContact} />
+      </span>
 }, {
-  title: '	Birthday (>soon)',
+  //as a 'would' kind of feature, it would be nice to warn about the upcoming birthdays with a special 'soon' label
+  title: 'Birthday',
   dataIndex: 'birthday',
-  key: 'birthday',
-  sorter: (a, b) => a.birthday < b.birthday,
+  key: 'birthday'
 }];
 
 class CustomersList extends Component {
@@ -58,10 +68,11 @@ class CustomersList extends Component {
           let customers = snapshot.val();
           if (customers) {
             let maxCustomerLifetimeValue = 0;
-            customers = Object.values(customers); //fix Firebases array to object transform
+            customers = Object.values(customers); //fixing the way Firebases stores the initial sample data array
             customers.forEach((customer) => {
               maxCustomerLifetimeValue = maxCustomerLifetimeValue < customer.customerLifetimeValue ? customer.customerLifetimeValue : maxCustomerLifetimeValue;
             });
+            //with the Max value determined, it is possible to build the 'progress bar' chart for it
             customers.forEach((customer) => {
               customer.name.full = customer.name.first + ' ' + customer.name.last;
               customer.fullGender = customer.gender === "m" ? "men" : "women";
@@ -73,6 +84,7 @@ class CustomersList extends Component {
           }
         });
       } catch (e) {
+        //naturally the user deserves to see a more friendly communication than just a console message here
         console.log(e);
       }
     }
@@ -108,4 +120,3 @@ class CustomersList extends Component {
 }
 
 export default CustomersList;
-

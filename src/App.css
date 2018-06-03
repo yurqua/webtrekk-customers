@@ -1,16 +1,19 @@
 @import url(~antd/dist/antd.css);
-.App {
-  text-align: center;
+body {
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 300; }
+
+.App {
+  text-align: center;
+  animation: fadein 1s; }
 
 .App-logo {
   height: 80px; }
 
 .App-header {
   background-color: white;
-  height: 120px;
-  padding: 20px;
+  height: 110px;
+  padding: 20px 20px 0px;
   color: white;
   text-align: left; }
   .App-header img {
@@ -26,6 +29,9 @@
 .App-intro {
   font-size: large; }
 
+.last-in-order {
+  order: 3; }
+
 .ant-table-wrapper .table thead, .ant-table-wrapper .table td {
   vertical-align: middle;
   text-align: left; }
@@ -33,9 +39,14 @@
 .ant-table-wrapper .person {
   text-align: left;
   font-size: 1.3em; }
-  .ant-table-wrapper .person img {
+  .ant-table-wrapper .person .avatar {
     border-radius: 50%;
-    margin-right: 20px; }
+    background-color: lightgrey;
+    width: 72px;
+    height: 72px; }
+    .ant-table-wrapper .person .avatar img {
+      border-radius: 50%;
+      margin-right: 20px; }
   .ant-table-wrapper .person a {
     color: #222;
     display: inline-block; }
@@ -45,45 +56,109 @@
 .ant-table-wrapper .progress {
   height: 2px; }
 
+.ant-table-wrapper .ant-progress-status-success .ant-progress-bg, .ant-table-wrapper .ant-progress-status-normal .ant-progress-bg {
+  background-color: #1890ff !important; }
+
+.ant-table-wrapper .ant-progress-small.ant-progress-line {
+  margin-top: -9px;
+  display: block; }
+
+.ant-table-wrapper .ant-progress-inner, .ant-table-wrapper .ant-progress-bg {
+  height: 5px !important; }
+
+.ant-table-wrapper .ant-table-tbody > tr:hover > td {
+  background: #f6f6f6; }
+
 .customer-profile {
-  text-align: center; }
+  animation: fadein 1s; }
   .customer-profile .invisible {
-    opacity: 0;
-    animation: fadeIn; }
+    opacity: 0; }
+  .customer-profile .editable {
+    display: inline; }
+    .customer-profile .editable.hidden {
+      opacity: 0; }
+  .customer-profile .editable:hover {
+    padding: 2px 5px 3px 5px;
+    margin: -2px -5px;
+    background: yellow;
+    border-radius: 4px;
+    cursor: pointer; }
   .customer-profile h2 {
     font-size: 48px;
-    font-weight: 300;
-    display: inline; }
-    .customer-profile h2.editable-names:hover {
+    font-weight: 300; }
+    .customer-profile h2.editable:hover {
       padding: 0 12px 3px 12px;
-      margin: -2px -5px;
-      background: yellow;
-      border-radius: 8px;
-      cursor: pointer; }
-    .customer-profile h2.editable-names.hidden {
-      opacity: 0; }
+      margin: -2px -5px -2px -12px;
+      border-radius: 8px; }
   .customer-profile .avatar {
     border-radius: 50%;
     background-color: lightgrey;
     margin: 10px;
-    animation: fadein 1s;
     margin: 0 auto;
+    display: block;
+    width: 172px;
+    height: 172px; }
+    .customer-profile .avatar img {
+      border-radius: 50%; }
+  .customer-profile .customer-lifetime-value {
+    text-align: center; }
+    .customer-profile .customer-lifetime-value > div {
+      margin-top: -25px; }
+    .customer-profile .customer-lifetime-value .label {
+      font-size: 10px;
+      text-transform: uppercase; }
+    .customer-profile .customer-lifetime-value .value {
+      font-size: 30px;
+      background-color: #8cb911;
+      color: white;
+      border-radius: 13px;
+      padding: 0px 15px;
+      font-weight: 700;
+      text-align: center; }
+  .customer-profile .admin-button {
+    margin-top: 50px;
     display: block; }
+    .customer-profile .admin-button .delete-button, .customer-profile .admin-button .duplicate-button {
+      display: block;
+      cursor: pointer;
+      padding: 2px;
+      margin: 10px 0;
+      width: 120px;
+      border-radius: 3px;
+      text-align: center; }
+    .customer-profile .admin-button .delete-button:hover {
+      color: white;
+      background-color: red; }
+    .customer-profile .admin-button .duplicate-button:hover {
+      color: white;
+      background-color: #8cb911; }
+  .customer-profile hr {
+    width: 150px;
+    margin: 20px auto; }
+  .customer-profile .date-picker-component {
+    font-size: 20px;
+    margin-bottom: 13px; }
   .customer-profile .ant-input {
-    width: 250px; }
+    width: 150px; }
   .customer-profile .ant-btn-lg {
     height: 41px; }
+  .customer-profile .ant-radio-group {
+    margin-top: 8px; }
   .customer-profile form span {
     display: inline-block; }
     .customer-profile form span > * {
-      margin: 3px; }
+      margin: 3px 5px 3px 0; }
   .customer-profile .names-form {
     display: block;
-    margin: -49px 0 2px 0; }
+    margin: -55px 0 7px 0; }
+    .customer-profile .names-form > span {
+      margin-right: 10px; }
     .customer-profile .names-form.hidden {
       display: none; }
-  .customer-profile .buttons {
-    margin-left: 10px; }
+  .customer-profile .date-form {
+    margin: -38px 0 -15px 0; }
+    .customer-profile .date-form.hidden {
+      display: none; }
 
 @keyframes fadein {
   from {
@@ -94,15 +169,13 @@
 ._loading-overlay {
   height: calc(100vh - 120px); }
 
-.ant-progress-status-success .ant-progress-bg {
-  background-color: #1890ff; }
-
-.ant-progress-small.ant-progress-line {
-  margin-top: -9px;
-  display: block; }
-
-.ant-progress-inner, .ant-progress-bg {
-  height: 5px !important; }
-
-.ant-table-tbody > tr:hover > td {
-  background: #f6f6f6; }
+@media screen and (max-width: 768px) {
+  .last-in-order {
+    order: 1; }
+  .customer-profile .personal-details {
+    text-align: center; }
+  .customer-profile h2.editable:hover {
+    padding: 0 12px 3px 12px;
+    margin: -2px -5px; }
+  .customer-profile .admin-button .delete-button, .customer-profile .admin-button .duplicate-button {
+    margin: 10px auto; } }
