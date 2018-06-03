@@ -127,39 +127,45 @@ class Profile extends Component {
           >
             <Row type="flex" justify="center" className="customer-profile">
               <Col xs={24} md={20} xl={18}>
-                <Avatar 
-                  customerID={+this.state.customerID} 
-                  gender={this.state.gender}
-                  size="big"
-                  isLoading={this.state.isLoading}
-                />
-                <span className={hiddenCustomerDetails}>
-                  <div className={'customer-lifetime-value ' + hiddenCustomerDetails}>
-                    <div>
-                      <span className="value">{this.state.customerLifetimeValue}</span>
+                <Row type="flex">
+                  <Button 
+                    onClick={() => this.removeCustomer(this.state.firebaseID)} 
+                    type="danger" 
+                    size="large" 
+                    shape="circle" 
+                    icon="close-circle"
+                    className="delete-button"
+                  />
+                  <Col xs={24} md={{ span: 8, offset: 3 }} xl={{ span: 4, offset: 4 }}>
+                    <Avatar 
+                      customerID={+this.state.customerID} 
+                      gender={this.state.gender}
+                      size="big"
+                      isLoading={this.state.isLoading}
+                    />
+                    <div className={'customer-lifetime-value ' + hiddenCustomerDetails}>
+                      <div>
+                        <span className="value">{this.state.customerLifetimeValue}</span>
+                      </div>
+                      <span className="label">Customer lifetime value</span>
                     </div>
-                    <span className="label">Customer lifetime value</span>
-                  </div>
-                  <hr />
+                  </Col>
+                  <Col xs={24} md={12} xl={{ span: 12, offset: 1 }}>
+                    <span className={'personal-details ' + hiddenCustomerDetails}>
+                      {renderFullName.call(this)}
+                      {renderDatePicker.call(this)}
+                      {renderGenderSwitch.call(this)}
+                    </span>
+                  </Col>
 
-                  {renderFullName.call(this)}
-                  {renderDatePicker.call(this)}
-                  {renderGenderSwitch.call(this)}
-
-                  <hr />
-
-                  <form onSubmit={this.handleSubmit} className={hiddenCustomerDetails}>
-                    <Button icon="check-circle" type="primary" size="large">Add profile</Button>
-                  </form>
-
-                  <p className={hiddenCustomerDetails}>
-                    <Button onClick={() => this.removeCustomer(this.state.firebaseID)} type="danger" size="large">Remove this profile</Button>
-                  </p>
-                  
-                  <Link to="/">Home</Link>
-                </span>
+                </Row>
               </Col>
             </Row>
+            <br />
+            <br />
+            <form onSubmit={this.handleSubmit} className={hiddenCustomerDetails}>
+              <Button icon="check-circle" type="primary" size="large">Add profile</Button>
+            </form>
           </Loadable>
         </div>
     );

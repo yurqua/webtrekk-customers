@@ -29,6 +29,9 @@ body {
 .App-intro {
   font-size: large; }
 
+.last-in-order {
+  order: 3; }
+
 .ant-table-wrapper .table thead, .ant-table-wrapper .table td {
   vertical-align: middle;
   text-align: left; }
@@ -67,7 +70,6 @@ body {
   background: #f6f6f6; }
 
 .customer-profile {
-  text-align: center;
   animation: fadein 1s; }
   .customer-profile .invisible {
     opacity: 0; }
@@ -86,7 +88,7 @@ body {
     font-weight: 300; }
     .customer-profile h2.editable:hover {
       padding: 0 12px 3px 12px;
-      margin: -2px -5px;
+      margin: -2px -5px -2px -12px;
       border-radius: 8px; }
   .customer-profile .avatar {
     border-radius: 50%;
@@ -98,19 +100,24 @@ body {
     height: 172px; }
     .customer-profile .avatar img {
       border-radius: 50%; }
-  .customer-profile .customer-lifetime-value > div {
-    margin-top: -25px; }
-  .customer-profile .customer-lifetime-value .label {
-    font-size: 10px;
-    text-transform: uppercase; }
-  .customer-profile .customer-lifetime-value .value {
-    font-size: 30px;
-    background-color: #8cb911;
-    color: white;
-    border-radius: 13px;
-    padding: 0px 15px;
-    font-weight: 700;
+  .customer-profile .customer-lifetime-value {
     text-align: center; }
+    .customer-profile .customer-lifetime-value > div {
+      margin-top: -25px; }
+    .customer-profile .customer-lifetime-value .label {
+      font-size: 10px;
+      text-transform: uppercase; }
+    .customer-profile .customer-lifetime-value .value {
+      font-size: 30px;
+      background-color: #8cb911;
+      color: white;
+      border-radius: 13px;
+      padding: 0px 15px;
+      font-weight: 700;
+      text-align: center; }
+  .customer-profile .delete-button {
+    position: absolute;
+    right: 20px; }
   .customer-profile hr {
     width: 150px;
     margin: 20px auto; }
@@ -118,7 +125,7 @@ body {
     font-size: 20px;
     margin-bottom: 13px; }
   .customer-profile .ant-input {
-    width: 250px; }
+    width: 150px; }
   .customer-profile .ant-btn-lg {
     height: 41px; }
   .customer-profile form span {
@@ -145,3 +152,12 @@ body {
 
 ._loading-overlay {
   height: calc(100vh - 120px); }
+
+@media screen and (max-width: 768px) {
+  .last-in-order {
+    order: 1; }
+  .customer-profile .personal-details {
+    text-align: center; }
+  .customer-profile h2.editable:hover {
+    padding: 0 12px 3px 12px;
+    margin: -2px -5px; } }

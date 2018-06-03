@@ -37,6 +37,10 @@ body {
   font-size: large;
 }
 
+.last-in-order {
+  order: 3;
+}
+
 .ant-table-wrapper {
   .table {
     thead, td {
@@ -87,7 +91,6 @@ body {
 }
 
 .customer-profile {
-  text-align: center;
   animation: fadein 1s;
   .invisible {
     opacity: 0;
@@ -110,7 +113,7 @@ body {
     font-weight: 300;
     &.editable:hover {
       padding: 0 12px 3px 12px;
-      margin: -2px -5px;
+      margin: -2px -5px -2px -12px;
       border-radius: 8px;
     }
   }
@@ -127,14 +130,15 @@ body {
     }
   }
   .customer-lifetime-value {
+    text-align: center;
     > div {
       margin-top: -25px;
     }
-    .label{
+    .label {
       font-size: 10px;
       text-transform: uppercase;
     }
-    .value{
+    .value {
       font-size: 30px;
       background-color: #8cb911;
       color: white;
@@ -143,6 +147,10 @@ body {
       font-weight: 700;
       text-align: center;
     }
+  }
+  .delete-button {
+    position: absolute;
+    right: 20px;
   }
   hr {
     width: 150px;
@@ -153,7 +161,7 @@ body {
     margin-bottom: 13px;
   }
   .ant-input{
-    width: 250px;
+    width: 150px;
   }
   .ant-btn-lg {
     height: 41px;
@@ -190,6 +198,23 @@ body {
 
 ._loading-overlay{
   height: calc(100vh - 120px);
+}
+
+@media screen and (max-width: 768px) {
+  .last-in-order {
+    order: 1;
+  }
+  .customer-profile {
+    .personal-details {
+      text-align: center;
+    }
+    h2 {
+      &.editable:hover {
+        padding: 0 12px 3px 12px;
+        margin: -2px -5px;
+      }
+    }
+  }
 }
 
 

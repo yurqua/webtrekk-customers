@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, DatePicker, Button } from 'antd';
+import TimeAgo from 'react-timeago'
 import moment from 'moment';
 import writeUserData from './helpers'
 
@@ -62,10 +63,17 @@ class UIDatePicker extends React.Component {
       rules: [{ type: 'object', required: true, message: 'Please select date!' }],
       initialValue: moment(this.state.date, 'YYYY-MM-DD')
     };
+    const dateRender = this.state.fieldType === 'lastContact' ? (
+      <TimeAgo date={this.state.date} />
+    ) : (
+      <span>
+        {this.state.date}
+      </span>
+    );
     return (
       <div className="date-picker-component">
         <div className={"editable " + hiddenLabel} onClick={this.handleEdit}>
-          {this.state.fieldTypeText} {this.state.date}
+          {this.state.fieldTypeText} {dateRender}
         </div>
         <Form className={"date-form " + hiddenForm}>
           <span>
