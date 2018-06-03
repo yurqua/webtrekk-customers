@@ -148,16 +148,29 @@ body {
       text-align: center;
     }
   }
-  .delete-button {
+  .admin-button {
+    margin-top: 50px;
     display: block;
-    cursor: pointer;
-    padding: 2px;
-    margin: 10px auto;
-    width: 120px;
-    border-radius: 3px;
-    &:hover {
-      color: white;
-      background-color: red;
+    .delete-button, .duplicate-button {
+      display: block;
+      cursor: pointer;
+      padding: 2px;
+      margin: 10px 0;
+      width: 120px;
+      border-radius: 3px;
+      text-align: center;
+    }
+    .delete-button {
+      &:hover {
+        color: white;
+        background-color: red;
+      }
+    }
+    .duplicate-button {
+      &:hover {
+        color: white;
+        background-color: #8cb911;
+      }
     }
   }
   hr {
@@ -222,6 +235,11 @@ body {
       &.editable:hover {
         padding: 0 12px 3px 12px;
         margin: -2px -5px;
+      }
+    }
+    .admin-button {
+      .delete-button, .duplicate-button {
+        margin: 10px auto;
       }
     }
   }

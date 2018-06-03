@@ -1,12 +1,11 @@
 import Loadable from 'react-loading-overlay'
 import React, { Component } from 'react';
-import { Row, Col, Button } from 'antd';
+import { Row, Col, Button, notification } from 'antd';
 import Avatar from './Avatar';
 import FullName from './FullName';
 import ValidatedDatePicker from './DatePicker';
 import GenderSwitch from './GenderSwitch'
 import firebase from '.././firebase.js';
-import { Link } from "react-router-dom";
 
 function renderFullName() {
   if (this.state.name.first) {
@@ -57,26 +56,40 @@ class Profile extends Component {
         customerLifetimeValue: '',
         isLoading: true,
       };
-      this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleDuplicate = this.handleDuplicate.bind(this);
     }
 
-    handleSubmit(e) {
+    handleDuplicate(self) {
       //until a separate 'New customer' page is developed this serves as a stub
       //the actual pattern is copying the existing customer profile into a new record
-      e.preventDefault();
       const customersRef = firebase.database().ref('customers');
       const customer = {
-        customerID: +this.state.maxID +1,
+        customerID: +self.state.maxID +1,
         name: {
-            first: this.state.name.first,
-            last: this.state.name.last,
+            first: self.state.name.first,
+            last: self.state.name.last,
         },
-        birthday: this.state.birthday,
-        gender: this.state.gender,
-        lastContact: this.state.lastContact,
-        customerLifetimeValue: this.state.customerLifetimeValue
+        birthday: self.state.birthday,
+        gender: self.state.gender,
+        lastContact: self.state.lastContact,
+        customerLifetimeValue: self.state.customerLifetimeValue
       }
-      customersRef.push(customer);
+      customersRef.push(customer, function(error) {
+        if (error) {
+          const description = 'Failed to duplicate this profile. ' + error;
+          notification['error']({
+            message: 'Error',
+            description: description,
+          });
+        } else {
+          const description = 'Profile was successfully duplicated.';
+          notification['success']({
+            message: 'Success',
+            description: description,
+          });
+          window.location = '/';
+        }
+      });
     }
 
     removeCustomer(firebaseID) {
@@ -103,7 +116,7 @@ class Profile extends Component {
                   currentCustomer = customers[customer];
                   currentCustomer.firebaseID = customer;
                 } 
-                maxID = customer.customerID > maxID ? customer.customerID : maxID;
+                maxID = customers[customer].customerID > maxID ? customers[customer].customerID : maxID;
             }
           }
           currentCustomer.isLoading = false;
@@ -147,10 +160,6 @@ class Profile extends Component {
                         <span className="value">{this.state.customerLifetimeValue}</span>
                       </div>
                       <span className="label">Customer lifetime value</span>
-                      <span 
-                        onClick={() => this.removeCustomer(this.state.firebaseID)} 
-                        className="delete-button"
-                      >[Delete this profile]</span>
                     </div>
                   </Col>
                   <Col xs={24} md={12} xl={{ span: 14, offset: 1 }}>
@@ -158,17 +167,27 @@ class Profile extends Component {
                       {renderFullName.call(this)}
                       {renderDatePicker.call(this)}
                       {renderGenderSwitch.call(this)}
+                      <span className={'admin-button ' + hiddenCustomerDetails}>
+                        <span 
+                          className="delete-button"
+                          onClick={() => this.removeCustomer(this.state.firebaseID)} 
+                        >
+                          [Delete profile]
+                        </span>
+                        <span 
+                          className="duplicate-button"
+                          onClick={() => this.handleDuplicate(this)} 
+                        >
+                          [Duplicate profile]
+                        </span>
+                      </span>
                     </span>
                   </Col>
-
                 </Row>
               </Col>
             </Row>
             <br />
             <br />
-            <form onSubmit={this.handleSubmit} className={hiddenCustomerDetails}>
-              <Button icon="check-circle" type="primary" size="large">Duplicate this profile</Button>
-            </form>
           </Loadable>
         </div>
     );

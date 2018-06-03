@@ -18,7 +18,7 @@ class Avatar extends React.Component {
             isLoading: nextProps.isLoading,
             gender: nextProps.gender,
         };
-      }      
+    }      
 
     render() {
         const pixelSize = this.state.size === 'small' ? '72' : '172'
