@@ -116,8 +116,15 @@ body {
       font-weight: 700;
       text-align: center; }
   .customer-profile .delete-button {
-    position: absolute;
-    right: 20px; }
+    display: block;
+    cursor: pointer;
+    padding: 2px;
+    margin: 10px auto;
+    width: 120px;
+    border-radius: 3px; }
+    .customer-profile .delete-button:hover {
+      color: white;
+      background-color: red; }
   .customer-profile hr {
     width: 150px;
     margin: 20px auto; }

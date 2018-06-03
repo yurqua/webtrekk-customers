@@ -149,8 +149,16 @@ body {
     }
   }
   .delete-button {
-    position: absolute;
-    right: 20px;
+    display: block;
+    cursor: pointer;
+    padding: 2px;
+    margin: 10px auto;
+    width: 120px;
+    border-radius: 3px;
+    &:hover {
+      color: white;
+      background-color: red;
+    }
   }
   hr {
     width: 150px;

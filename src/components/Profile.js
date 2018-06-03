@@ -128,14 +128,6 @@ class Profile extends Component {
             <Row type="flex" justify="center" className="customer-profile">
               <Col xs={24} md={20} xl={18}>
                 <Row type="flex">
-                  <Button 
-                    onClick={() => this.removeCustomer(this.state.firebaseID)} 
-                    type="danger" 
-                    size="large" 
-                    shape="circle" 
-                    icon="close-circle"
-                    className="delete-button"
-                  />
                   <Col xs={24} md={{ span: 8, offset: 3 }} xl={{ span: 4, offset: 4 }}>
                     <Avatar 
                       customerID={+this.state.customerID} 
@@ -148,6 +140,10 @@ class Profile extends Component {
                         <span className="value">{this.state.customerLifetimeValue}</span>
                       </div>
                       <span className="label">Customer lifetime value</span>
+                      <span 
+                        onClick={() => this.removeCustomer(this.state.firebaseID)} 
+                        className="delete-button"
+                      >[Delete this profile]</span>
                     </div>
                   </Col>
                   <Col xs={24} md={12} xl={{ span: 14, offset: 1 }}>
