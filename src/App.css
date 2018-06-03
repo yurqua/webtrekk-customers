@@ -128,21 +128,23 @@ body {
     width: 150px; }
   .customer-profile .ant-btn-lg {
     height: 41px; }
+  .customer-profile .ant-radio-group {
+    margin-top: 8px; }
   .customer-profile form span {
     display: inline-block; }
     .customer-profile form span > * {
-      margin: 3px; }
+      margin: 3px 5px 3px 0; }
   .customer-profile .names-form {
     display: block;
-    margin: -50px 0 2px 0; }
+    margin: -55px 0 7px 0; }
+    .customer-profile .names-form > span {
+      margin-right: 10px; }
     .customer-profile .names-form.hidden {
       display: none; }
   .customer-profile .date-form {
     margin: -38px 0 -15px 0; }
     .customer-profile .date-form.hidden {
       display: none; }
-  .customer-profile .buttons {
-    margin-left: 10px; }
 
 @keyframes fadein {
   from {

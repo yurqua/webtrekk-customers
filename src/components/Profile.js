@@ -150,7 +150,7 @@ class Profile extends Component {
                       <span className="label">Customer lifetime value</span>
                     </div>
                   </Col>
-                  <Col xs={24} md={12} xl={{ span: 12, offset: 1 }}>
+                  <Col xs={24} md={12} xl={{ span: 14, offset: 1 }}>
                     <span className={'personal-details ' + hiddenCustomerDetails}>
                       {renderFullName.call(this)}
                       {renderDatePicker.call(this)}
