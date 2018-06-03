@@ -10,6 +10,7 @@ class FullName extends React.Component {
           firstName: props.firstName,
           lastName: props.lastName,
           firebaseID: props.firebaseID,
+          //inline editing UX pattern requires its own property in the state
           isEditingNames: false
         }
         this.handleChange = this.handleChange.bind(this);
@@ -17,7 +18,6 @@ class FullName extends React.Component {
         this.handleCancelSaveNames = this.handleCancelSaveNames.bind(this);
         this.handleSaveNames = this.handleSaveNames.bind(this);  
     }
-
     
     handleChange(e) {
         this.setState({
@@ -28,6 +28,7 @@ class FullName extends React.Component {
     handleEditNames(e) {
         e.preventDefault();
         this.setState({
+            //before starting with editing, let's backup the previous state so it can be restored on 'Cancel' button tap
             prevName: {
                 first: this.state.firstName,
                 last: this.state.lastName
@@ -79,7 +80,6 @@ class FullName extends React.Component {
             </div>
         )
     }
-
 }
 
 FullName.propTypes = {

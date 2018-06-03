@@ -5,12 +5,15 @@ import TimeAgo from 'react-timeago'
 import moment from 'moment';
 import writeUserData from './helpers'
 
+//As a general note to this component, it would be nice to have a kind of 'Just contacted' button that would set the 'Last contact date' value to the current moment. Seems the expected user workflow would benefit from this
+//Also, it would make sense to keep history of such events 
 class UIDatePicker extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
       date: props.date,
       fieldType: props.fieldType,
+      //Figuring out a suitable label for the control
       fieldTypeText: props.fieldType === 'birthday' ? 'Birthday: ' : 'Last contact: ',
       firebaseID: props.firebaseID,
       name: props.name
@@ -21,12 +24,14 @@ class UIDatePicker extends React.Component {
   }
 
   handleEdit(e) {
+    //before starting with editing let's backup the previous state so it can be restored on 'Cancel' button tap
     e.preventDefault();
     this.setState({
       prevValue: this.state.date, 
       isEditing: true
     });
   }
+
   handleSave = function (e) {
     e.preventDefault();
     let date = null;
@@ -34,7 +39,7 @@ class UIDatePicker extends React.Component {
       if (err) {
         return;
       }
-      // formatting date value before submit.
+      // formatting date value before submitting it to Firebase
       const values = {
         ...fieldsValue,
         'date-picker': fieldsValue['date-picker'].format('YYYY-MM-DD'),
@@ -47,6 +52,7 @@ class UIDatePicker extends React.Component {
       isEditing: false
     });
   }
+
   handleCancel(e) {
     e.preventDefault();
     this.setState({
@@ -63,6 +69,7 @@ class UIDatePicker extends React.Component {
       rules: [{ type: 'object', required: true, message: 'Please select date!' }],
       initialValue: moment(this.state.date, 'YYYY-MM-DD')
     };
+    //Unlike birthday date, the 'Last contact date' is easier to read when it's provided in the '...time ago' format
     const dateRender = this.state.fieldType === 'lastContact' ? (
       <TimeAgo date={this.state.date} />
     ) : (
@@ -100,6 +107,7 @@ UIDatePicker.propTypes = {
   name: PropTypes.object.isRequired
 };
 
+// Ant validation mechanism requires a wrapper for the validated form elements
 const ValidatedDatePicker = Form.create()(UIDatePicker);
 
 export default ValidatedDatePicker;

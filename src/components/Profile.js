@@ -61,6 +61,8 @@ class Profile extends Component {
     }
 
     handleSubmit(e) {
+      //until a separate 'New customer' page is developed this serves as a stub
+      //the actual pattern is copying the existing customer profile into a new record
       e.preventDefault();
       const customersRef = firebase.database().ref('customers');
       const customer = {
@@ -78,6 +80,7 @@ class Profile extends Component {
     }
 
     removeCustomer(firebaseID) {
+      //a place to implement either classic confirmation UX pattern or, which is even better, a post-confirmation pattern where the user gets immediate result of its action but is able to undo it immedeately after
       this.setState({ 'isLoading': true });
       const customerRef = firebase.database().ref(`/customers/${firebaseID}`);
       customerRef.remove();
@@ -88,6 +91,8 @@ class Profile extends Component {
       this.customersRef = firebase.database().ref('customers');
       try { 
         this.customersRef.on('value', (snapshot) => {
+          //the profile page requires not only the specific profile itself but also a way to get the maximum existing ID. while there is no separate 'New customer' page it comes handy when adding a new record
+          //switching to native Firebase IDs instead would eliminate the need in getting the full list of customers
           let customers = snapshot.val();
           let currentCustomerID = this.state.customerID;
           let maxID = 0;
@@ -106,6 +111,7 @@ class Profile extends Component {
           this.setState(currentCustomer);
         });
       } catch (e) {
+        //naturally the user deserves to see a more friendly communication than just a console message here
         console.log(e);
       }
     }
@@ -135,6 +141,7 @@ class Profile extends Component {
                       size="big"
                       isLoading={this.state.isLoading}
                     />
+                    {/*Customer lifetime value seems to be a value calulated somewhere on the backend, so it's not editable within this component*/}
                     <div className={'customer-lifetime-value ' + hiddenCustomerDetails}>
                       <div>
                         <span className="value">{this.state.customerLifetimeValue}</span>
@@ -160,7 +167,7 @@ class Profile extends Component {
             <br />
             <br />
             <form onSubmit={this.handleSubmit} className={hiddenCustomerDetails}>
-              <Button icon="check-circle" type="primary" size="large">Add profile</Button>
+              <Button icon="check-circle" type="primary" size="large">Duplicate this profile</Button>
             </form>
           </Loadable>
         </div>
@@ -169,4 +176,3 @@ class Profile extends Component {
 }
 
 export default Profile;
-

@@ -21,6 +21,7 @@ const customersColumns = [{
           isLoading={false}
         />
       </div>
+      {/*switching to native Firebase IDs instead would simplify the app*/} 
       <Link to={"/profile/" + record.customerID}>{text}</Link>
     </span>,
   sorter: (a, b) => a.name.full.toLowerCase() > b.name.full.toLowerCase(),
@@ -39,11 +40,13 @@ const customersColumns = [{
   title: 'Last contact',
   dataIndex: 'lastContact',
   key: 'lastContact',
+  //Unlike birthday date, the 'Last contact date' is easier to read when it's provided in the '...time ago' format
   render: (text, record) => 
       <span>
         <TimeAgo date={record.lastContact} />
       </span>
 }, {
+  //as a 'would' kind of feature, it would be nice to warn about the upcoming birthdays with a special 'soon' label
   title: 'Birthday',
   dataIndex: 'birthday',
   key: 'birthday'
@@ -65,10 +68,11 @@ class CustomersList extends Component {
           let customers = snapshot.val();
           if (customers) {
             let maxCustomerLifetimeValue = 0;
-            customers = Object.values(customers); //fix Firebases array to object transform
+            customers = Object.values(customers); //fixing the way Firebases stores the initial sample data array
             customers.forEach((customer) => {
               maxCustomerLifetimeValue = maxCustomerLifetimeValue < customer.customerLifetimeValue ? customer.customerLifetimeValue : maxCustomerLifetimeValue;
             });
+            //with the Max value determined, it is possible to build the 'progress bar' chart for it
             customers.forEach((customer) => {
               customer.name.full = customer.name.first + ' ' + customer.name.last;
               customer.fullGender = customer.gender === "m" ? "men" : "women";
@@ -80,6 +84,7 @@ class CustomersList extends Component {
           }
         });
       } catch (e) {
+        //naturally the user deserves to see a more friendly communication than just a console message here
         console.log(e);
       }
     }
@@ -115,4 +120,3 @@ class CustomersList extends Component {
 }
 
 export default CustomersList;
-
